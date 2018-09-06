@@ -8,6 +8,10 @@ image:
   repository: josmo/k8s-all-bases-example
   tag: latest
   pullPolicy: Always
+  annotations:
+    buildNumber: -1
+    deployedDate: -1
+
 
 nameOverride: ""
 fullnameOverride: ""

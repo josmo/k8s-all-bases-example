@@ -18,6 +18,11 @@ spec:
       labels:
         app: {{ include "cool-service.name" . }}
         release: {{ .Release.Name }}
+      {{ if .Values.image.annotations }}
+      annotations:
+        buildNumber: {{ .Values.image.annotations.buildNumber | quote }}
+        deployedDate: {{ .Values.image.annotations.deployedDate | quote }}
+      {{ end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
