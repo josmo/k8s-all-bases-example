@@ -1,0 +1,11 @@
+ingress:
+  enabled: false
+  annotations: {}
+  #      certmanager.k8s.io/cluster-issuer: letsencrypt-production
+  path: /
+  hosts:
+  - prod-all-bases.grannec.com
+  tls: []
+  #  - secretName: prod-prod-all-tls
+  #    hosts:
+  #      - prod-all-bases.grannec.com

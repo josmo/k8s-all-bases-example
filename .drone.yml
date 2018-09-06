@@ -1,0 +1,58 @@
+pipeline:
+  publish:
+    image: plugins/docker
+    secrets: [ docker_username, docker_password ]
+    repo: josmo/k8s-all-bases-example
+    auto_tag: true
+    file: Dockerfile
+    when:
+      event: [ push, tag ]
+
+  deploy-master:
+    image: peloton/drone-helm:0.0.3
+    chart: ./cool-service
+    values:
+    - annotations.deployedDate="${DRONE_BUILD_CREATED}"
+    - annotations.buildNumber="${DRONE_BUILD_NUMBER}"
+    release: master-all-bases
+    namespace: josmo
+    wait: true
+    timeout: 200
+    secrets: [ api_server, kubernetes_token ]
+    when:
+      event: [ push ]
+      branch: master
+
+  deploy-tag:
+    image: peloton/drone-helm:0.0.3
+    chart: ./cool-service
+    values:
+    - image.tag=${DRONE_TAG}
+    - annotations.deployedDate="${DRONE_BUILD_CREATED}"
+    - annotations.buildNumber="${DRONE_BUILD_NUMBER}"
+    release: tag-all-bases
+    namespace: josmo
+    values_files: ["./cool-service/staging.yaml"]
+    wait: true
+    timeout: 200
+    secrets: [ api_server, kubernetes_token ]
+    when:
+      event: [ tag ]
+      branch: master
+
+  deploy-production:
+    image: peloton/drone-helm:0.0.3
+    chart: ./cool-service
+    values:
+    - image.tag=${DRONE_TAG}
+    - annotations.deployedDate="${DRONE_BUILD_CREATED}"
+    - annotations.buildNumber="${DRONE_BUILD_NUMBER}"
+    release: prod-all-bases
+    namespace: josmo
+    values_files: ["./cool-service/prod.yaml"]
+    wait: true
+    timeout: 200
+    secrets: [ api_server, kubernetes_token ]
+    when:
+      event: [ push ]
+      branch: master
