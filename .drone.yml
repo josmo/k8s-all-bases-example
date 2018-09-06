@@ -19,8 +19,8 @@ pipeline:
     image: peloton/drone-helm:0.0.3
     chart: ./cool-service
     values:
-    - annotations.deployedDate="${DRONE_BUILD_CREATED}"
-    - annotations.buildNumber="${DRONE_BUILD_NUMBER}"
+    - image.annotations.deployedDate="${DRONE_BUILD_CREATED}"
+    - image.annotations.buildNumber="${DRONE_BUILD_NUMBER}"
     release: master-all-bases
     namespace: josmo
     wait: true
@@ -35,8 +35,8 @@ pipeline:
     chart: ./cool-service
     values:
     - image.tag=${DRONE_TAG}
-    - annotations.deployedDate="${DRONE_BUILD_CREATED}"
-    - annotations.buildNumber="${DRONE_BUILD_NUMBER}"
+    - image.annotations.deployedDate="${DRONE_BUILD_CREATED}"
+    - image.annotations.buildNumber="${DRONE_BUILD_NUMBER}"
     release: tag-all-bases
     namespace: josmo
     values_files: ["./cool-service/staging.yaml"]
@@ -52,8 +52,8 @@ pipeline:
     chart: ./cool-service
     values:
     - image.tag=${DRONE_TAG}
-    - annotations.deployedDate="${DRONE_BUILD_CREATED}"
-    - annotations.buildNumber="${DRONE_BUILD_NUMBER}"
+    - image.annotations.deployedDate="${DRONE_BUILD_CREATED}"
+    - image.annotations.buildNumber="${DRONE_BUILD_NUMBER}"
     release: prod-all-bases
     namespace: josmo
     values_files: ["./cool-service/prod.yaml"]
