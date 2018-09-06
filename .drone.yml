@@ -1,4 +1,11 @@
 pipeline:
+
+  update:
+    image: alpine
+    commands:
+      - sed -i 's/-DRONE_BUILD_NUMBER-/${DRONE_BUILD_NUMBER}/g' index.html
+      - sed -i 's/-DRONE_COMMIT_SHA-/${DRONE_COMMIT_SHA}/g' index.html
+
   publish:
     image: plugins/docker
     secrets: [ docker_username, docker_password ]
@@ -54,5 +61,5 @@ pipeline:
     timeout: 200
     secrets: [ api_server, kubernetes_token ]
     when:
-      event: [ push ]
-      branch: master
+      event: [ deployment ]
+      environment: prod
