@@ -8,4 +8,4 @@ ingress:
   tls:
     - secretName: josmo-staging-all-tls
       hosts:
-        - master-all-bases.grannec.com
+        - staging-all-bases.grannec.com
