@@ -45,7 +45,6 @@ pipeline:
     secrets: [ api_server, kubernetes_token ]
     when:
       event: [ tag ]
-      branch: master
 
   deploy-production:
     image: peloton/drone-helm:0.0.3
